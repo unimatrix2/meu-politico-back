@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import MongoConnection from './configs/db.config';
-/* import apiRoutes from './routes/api.routes'; */
+import apiRoutes from './routes/api.routes';
 import {handleError, handle404} from './middlewares/errorHandler';
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cors({ origin: process.env.FRONT_END_URL }));
 
 //Setup Routes
-/* app.use('/api', apiRoutes); */
+app.use('/api', apiRoutes);
 
 // Setup error handling
 app.use(handleError);
