@@ -4,6 +4,10 @@ import { Schema, model } from 'mongoose';
 const noticiaSchema = new Schema({
     headline: { type: String, required: true, min: 5, max: 100 },
     introduction: { type: String, required: true, max: 1000 },
+    category: {
+        type: String, enum: ['Positiva', 'Negativa', 'Corrupção', 'Promessa Cumprida', 'Promessa Descumprida'],
+        required: true
+    },
     sources: [{ type: String, required: true }],
     politico: { type: Schema.Types.ObjectId, ref: 'Politico', required: true },
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
