@@ -17,6 +17,7 @@ const politicoSchema = new Schema({
         enum: ['autorizar', 'editar', 'arquivar', 'publicado', 'editado', 'arquivado'],
         required: true
     },
+    news: [{ type: Schema.Types.ObjectId, ref: 'News' }],
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     officialInfoURL: { type: String, required: true },
     imageURL: { type: String },

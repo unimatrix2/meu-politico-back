@@ -8,7 +8,9 @@ const userSchema = new Schema({
 	cpf: { type: String, required: true, min: 11, max: 11 },
 	password: { type: String, required: true, min: 8, max: 200 },
 	role: { type: String, enum: ['usuário', 'moderador', 'admin'], required: true, default: 'usuário' },
-    imageURL: { type: String, default: 'https://www.ecp.org.br/wp-content/uploads/2017/12/default-avatar.png' }
+	imageURL: { type: String, default: 'https://www.ecp.org.br/wp-content/uploads/2017/12/default-avatar.png' },
+	news: [{ type: Schema.Types.ObjectId, ref: 'News' }],
+	politicos: [{ type: Schema.Types.ObjectId, ref: 'Politico' }],
 }, { timestamps: true });
 
 export const User = model('User', userSchema);
