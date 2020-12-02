@@ -1,10 +1,25 @@
-import { Router } from 'express';
+/* import { Router } from 'express';
 
 import Politico from '../../../models/Politico.model';
 import politicoService from '../../../services/politico.service';
 import ApplicationError from '../../../errors/AppError';
 
 const router = Router();
+
+
+router.get('/list/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const noticia = await noticiasService.getOne(id);
+
+    return res.status(200).json(noticia);
+  } catch (error) {
+    return next(new ApplicationError(error));
+  }
+});
+
+// Rotas privadas
 
 router.post('/create', async (req, res, next) => {
   try {
@@ -33,3 +48,4 @@ router.put('/edit/:id',  async (req, res, next) => {
 });
     
 export default router;
+ */
