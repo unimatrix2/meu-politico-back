@@ -1,6 +1,16 @@
-import UserEntity from '../models/User.model';
+import { User } from '../models/User.model';
 
-class AuthRepository {
+export const findUser = async cpf => {
+    const user = await User.findOne({ cpf });
+    return user;
+}
+
+export const saveUser = async body => {
+    const newUser = new User(body);
+    await newUser.save();
+}
+
+/* class AuthRepository {
   constructor() {
     this.User = UserEntity.User;
   }
@@ -18,4 +28,4 @@ class AuthRepository {
   }
 }
 
-export default new AuthRepository();
+export default new AuthRepository(); */
