@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-import UserEntity from '../../../models/User.model';
+import {validateSignupParams, validateLoginParams} from '../../../models/User.model';
 import authService from '../../../services/auth.service';
 import ApplicationError from '../../../errors/AppError';
 
 const router = Router();
 
-router.post('/signup', UserEntity.validateSignupParams, async (req, res, next) => {
+router.post('/signup', validateSignupParams, async (req, res, next) => {
   try {
     const { body } = req;
 
@@ -18,7 +18,7 @@ router.post('/signup', UserEntity.validateSignupParams, async (req, res, next) =
   }
 });
 
-router.post('/login', UserEntity.validateLoginParams, async (req, res, next) => {
+router.post('/login', validateLoginParams, async (req, res, next) => {
   try {
     const { body } = req;
 

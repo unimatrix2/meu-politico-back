@@ -10,5 +10,7 @@ import authRoutes from './authRoutes/auth.routes';
 const router = Router();
 
 router.use('/Auth', authRoutes);
+router.use('/Noticias', noticiaRoutes);
+router.use('/Politicos', politicoRoutes);
 
 export default router;
