@@ -44,16 +44,16 @@ const signupSchema = joi
 
 const loginSchema = joi
 	.object({
-		email: userSchemaValidation.email,
+		cpf: userSchemaValidation.cpf,
 		password: userSchemaValidation.password,
 	})
 	.options({ abortEarly: false });
 
 export const validateSignupParams = (req, res, nxt) => {
-	const joiValdation = signupSchema.validate(req.body);
+	const joiValidation = signupSchema.validate(req.body);
 
-	if (joiValdation.error) {
-		const errorObj = joiValdation.error.details.reduce((acc, err) => {
+	if (joiValidation.error) {
+		const errorObj = joiValidation.error.details.reduce((acc, err) => {
 			acc[err.context.label] = err.message;
 			return acc;
 		}, {});
@@ -67,9 +67,9 @@ export const validateSignupParams = (req, res, nxt) => {
 };
 
 export const validateLoginParams = (req, res, nxt) => {
-	const joiValdation = loginSchema.validate(req.body);
+	const joiValidation = loginSchema.validate(req.body);
 
-	if (joiValdation.error) {
+	if (joiValidation.error) {
 		const errorObj = joiValidation.error.details.reduce((acc, error) => {
 			acc[error.context.label] = error.message;
 	
@@ -84,4 +84,4 @@ export const validateLoginParams = (req, res, nxt) => {
 	return nxt();
 };
 
-export const User = model("User", userSchema);
+export const User = model('User', userSchema);

@@ -1,24 +1,21 @@
 import { Router } from 'express';
-
-import {validateSignupParams, validateLoginParams} from '../../../models/User.model';
-import authService from '../../../services/auth.service';
-import ApplicationError from '../../../errors/AppError';
+import {validateSignupParams, validateLoginParams} from '../../models/User.model';
+import * as authService from '../../services/auth.service';
+import AppError from '../../errors/AppError';
 
 const router = Router();
 
-router.post('/signup', validateSignupParams, async (req, res, next) => {
+router.post('/registro', validateSignupParams, async (req, res, next) => {
   try {
     const { body } = req;
 
     await authService.register(body);
 
-    return res.status(201).json({ message: 'User created' });
-  } catch (error) {
-    return next(new ApplicationError(error));
-  }
+    return res.status(201).json({ message: 'Usuário criado com sucesso!' });
+  } catch (error) { return next(new AppError(error)) }
 });
 
-router.post('/login', validateLoginParams, async (req, res, next) => {
+router.post('/acesso', validateLoginParams, async (req, res, next) => {
   try {
     const { body } = req;
 

@@ -1,56 +1,40 @@
 import jwt from 'jsonwebtoken';
 
-import authRepository from '../repository/auth.repository';
-import passwordUtils from '../utils/password.utils';
-import ApplicationError from '../errors/AppError';
+import * as authRepo from '../repositories/auth.repository';
+import { encrypt, verify } from '../utils/passwordManager';
+import AppError from '../errors/AppError';
 
-class AuthService {
-  constructor() {
-    this.authRepo = authRepository;
-  }
 
-  async register(body) {
+const verifyExistingUser = async cpf => {
+    const user = await authRepo.findUser(cpf)
+
+    if (user) {
+        throw new AppError({ message: 'Usuário já existe', type: 'Registro-Usuario-Existe', status: 400 });
+    } else return false;
+
+}
+
+export const register = async body => {
     try {
-      await this.vefifyExistentUser(body);
+        const userExists = await verifyExistingUser(body.cpf);
+        if (!userExists) {
+            const newUser = { ...body, password: encrypt(body.password) };
+            await authRepo.saveUser(newUser);
+        }
+    } catch (error) { throw new AppError(error) }
+}
 
-      const newUser = { ...body, password: passwordUtils.encrypt(body.password) };
-
-      await this.authRepo.saveUser(newUser);
-    } catch (error) {
-      throw new ApplicationError(error);
-    }
-  }
-
-  async authenticateUser(userCredentials) {
-
-    const userFromDb = await this.authRepo.findUser(userCredentials.cpf);
-
-    if (!userFromDb) {
-      throw new ApplicationError({ message: 'Wrong Credentials', type: 'Auth-Login-Invalid-Credentials', status: 400 });
-    }
-
-    const isPasswordValid = passwordUtils.verify(userCredentials.password, userFromDb.password);
-
-    if (!isPasswordValid) {
-      throw new ApplicationError({ message: 'Wrong Credentials', type: 'Auth-Login-Invalid-Credentials', status: 400 });
-    }
+export const authenticateUser = async credentials => {
+    const userFromDb = await authRepo.findUser(credentials.cpf);
+    if (!userFromDb) { throw new AppError({ message: 'Credenciais inválidas', type: 'Acesso-Credencial-Invalida', status: 400 }) };
+    const isPasswordValid = verify(credentials.password, userFromDb.password);
+    if (!isPasswordValid) { throw new AppError({ message: 'Credenciais inválidas', type: 'Acesso-Credencial-Invalida', status: 400 }) };
 
     const token = jwt.sign(
-      { id: userFromDb._id },
-      process.env.TOKEN_SECRET,
-      { expiresIn: process.env.EXPIRATION_AUTH_TOKEN },
+        { id: userFromDb._id },
+        process.env.TOKEN_SECRET,
+        { expiresIn: process.env.EXPIRATION_AUTH_TOKEN }
     );
 
     return token;
-  }
-
-  async vefifyExistentUser({ cpf }) {
-    const user = await this.authRepo.findUser(cpf);
-
-    if (user) {
-      throw new ApplicationError({ message: 'User already exists', type: 'Auth-Signup', status: 400 });
-    }
-  }
 }
-
-export default new AuthService();
