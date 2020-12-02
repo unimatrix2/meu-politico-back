@@ -1,5 +1,4 @@
 import noticiaRepository from '../repository/noticia.repository';
-
 import ApplicationError from '../errors/AppError';
 
 class NoticiasService {
