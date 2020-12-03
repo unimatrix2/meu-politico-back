@@ -9,7 +9,7 @@ const noticiaSchema = new Schema({
         required: true
     },
     sources: [{ type: String, required: true }],
-    politico: { type: Schema.Types.ObjectId, ref: 'Politico', required: true },
+    politicos: [{ type: Schema.Types.ObjectId, ref: 'Politico', required: true }],
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     lastEditBy: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
