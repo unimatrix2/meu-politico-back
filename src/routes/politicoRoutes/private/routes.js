@@ -1,8 +1,7 @@
-/* import { Router } from 'express';
+import { Router } from 'express';
 
-import Politico from '../../../models/Politico.model';
-import politicoService from '../../../services/politico.service';
-import ApplicationError from '../../../errors/AppError';
+import * as politicoService from '../../../services/politico.service';
+import AppError from '../../../errors/AppError';
 
 const router = Router();
 
@@ -11,17 +10,17 @@ router.get('/list/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const noticia = await noticiasService.getOne(id);
+    const noticia = await politicoService.getOne(id);
 
     return res.status(200).json(noticia);
   } catch (error) {
-    return next(new ApplicationError(error));
+    return next(new AppError(error));
   }
 });
 
 // Rotas privadas
 
-router.post('/create', async (req, res, next) => {
+router.post('/criar', async (req, res, next) => {
   try {
     const { id } = req.user;
     const newPolitico = req.body;
@@ -30,22 +29,21 @@ router.post('/create', async (req, res, next) => {
 
     return res.status(201).json();
   } catch (error) {
-    return next(new ApplicationError(error));
+    return next(new AppError(error));
   }
 });
 
-router.put('/edit/:id',  async (req, res, next) => {
+router.put('/editar/:id',  async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updateObject = projectsMapper.updateOne(req.body);
+    const updateObject = req.body;
 
-    const updatedPolitico = await noticiasService.updateOne(updateObject, id);
+    const updatedPolitico = await politicoService.updateOne(updateObject, id);
 
     return res.status(200).json(updatedPolitico);
   } catch (error) {
-    return next(new ApplicationError(error));
+    return next(new AppError(error));
   }
 });
     
 export default router;
- */

@@ -15,15 +15,15 @@ export const getOne = async (id) => {
     } catch (error) { throw new AppError({ message: error.message, type: 'Político - GetOne Method', status: 502 }) };
 }
 
-export const create = async (newObject, id) => {
-    const newPolitico =  await politicoRepo.create(newObject, id);
+export const create = async (newObject) => {
+    const newPolitico =  await politicoRepo.create(newObject);
     return newPolitico;
 }
 
-export const updateOne = async (updateObject, id) => {
+export const updateOne = async (updateObject) => {
     try {
-        const updatedNoticia = await politicoRepo.updateOne(updateObject, id);
-        return updatedNoticia;
+        const updatedPolitico = await politicoRepo.updateOne(updateObject);
+        return updatedPolitico;
     } catch (error) {
       throw new ApplicationError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
     }
