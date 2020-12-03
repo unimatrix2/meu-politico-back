@@ -6,6 +6,12 @@ export const findUser = async cpf => {
 }
 
 export const saveUser = async body => {
-    const newUser = new User(body);
-    await newUser.save();
+    try {
+        const newUser = new User(body);
+        await newUser.save();
+    } catch (error) {
+        if (Object.keys(error.keyPattern) && Object.keys(error.keyPattern['email']) ) {
+            return Object.keys(error.keyValue);
+        } else console.log(error)
+    }
 }
