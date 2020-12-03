@@ -4,6 +4,7 @@ import { Schema, model } from 'mongoose';
 const politicoSchema = new Schema({
     fullName: { type: String, required: true, min: 10, max: 150 },
     currentPosition: {
+        type: String || Boolean,
         enum: ['Candidato', 'Vereador', 'Prefeito', 'Dep. Estadual', 'Governador', 'Dep. Federal', 'Senador', 'Presidente', 'Cargo Indireto', false],
         required: true
     },
