@@ -15,6 +15,11 @@ const verifyExistingUser = async (cpf, email) => {
 
 }
 
+export const tokenFindUser = async id => {
+    const user = await authRepo.tokenFindUser(id);
+    return user;
+}
+
 export const register = async body => {
     try {
         const userExists = await verifyExistingUser(body.cpf, body.email);
@@ -28,9 +33,9 @@ export const register = async body => {
 
 export const authenticateUser = async credentials => {
     const userFromDb = await authRepo.findUser(credentials.cpf);
-    if (!userFromDb) { throw new AppError({ message: 'Credenciais inválidas', type: 'Acesso-Credencial-Invalida', status: 400 }) };
+    if (!userFromDb) { throw new AppError({ message: 'Email ou senha incorretos', type: 'Acesso-Credencial-Invalida', status: 400 }) };
     const isPasswordValid = verify(credentials.password, userFromDb.password);
-    if (!isPasswordValid) { throw new AppError({ message: 'Credenciais inválidas', type: 'Acesso-Credencial-Invalida', status: 400 }) };
+    if (!isPasswordValid) { throw new AppError({ message: 'Email ou senha incorretos', type: 'Acesso-Credencial-Invalida', status: 400 }) };
 
     const token = jwt.sign(
         { id: userFromDb._id },

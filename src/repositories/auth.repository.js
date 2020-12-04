@@ -5,6 +5,11 @@ export const findUser = async cpf => {
     return user;
 }
 
+export const tokenFindUser = async id => {
+    const user = await User.findById(id);
+    return user;
+}
+
 export const saveUser = async body => {
     try {
         const newUser = new User(body);
