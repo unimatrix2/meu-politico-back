@@ -3,7 +3,6 @@ import {validateSignupParams, validateLoginParams} from '../../models/User.model
 import * as authService from '../../services/auth.service';
 import AppError from '../../errors/AppError';
 import { routeProtection } from '../../middlewares/protectedRoute';
-import { verify } from '../../utils/tokenManager'
 
 const router = Router();
 
