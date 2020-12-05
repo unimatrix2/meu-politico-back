@@ -7,7 +7,15 @@ export const findUser = async cpf => {
 
 export const tokenFindUser = async id => {
     const user = await User.findById(id);
-    return user;
+    const returnUser = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        cpf: user.cpf,
+        imageURL: user.imageURL,
+        role: user.role
+    };
+    return returnUser;
 }
 
 export const saveUser = async body => {

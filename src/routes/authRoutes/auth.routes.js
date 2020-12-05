@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {validateSignupParams, validateLoginParams} from '../../models/User.model';
 import * as authService from '../../services/auth.service';
 import AppError from '../../errors/AppError';
+import { routeProtection } from '../../middlewares/protectedRoute';
 import { verify } from '../../utils/tokenManager'
 
 const router = Router();
@@ -27,24 +28,15 @@ router.post('/acesso', validateLoginParams, async (req, res, next) => {
   }
 });
 
+router.use(routeProtection);
+
 router.get('/token', async (req, res, nxt) => {
-    const token = req.get('Authorization');
-    let decoded;
     try {
-        decoded = verify(token);
-        console.log(decoded.id)
-        const user = await authService.tokenFindUser(decoded.id);
-        const returnUser = {
-          fullName: `${user.firstName} ${user.lastName}`,
-          email: user.email,
-          imageURL: user.imageURL,
-          role: user.role
-        };
-        res.status(200).json(returnUser);
+        const user = await authService.tokenFindUser(req.user.id);
+        res.status(200).json(user);
     } catch (error) {
         return nxt(new AppError(error))
     }
-    return nxt();
 })
 
 export default router;
