@@ -9,10 +9,8 @@ export const routeProtection = (req, res, nxt) => {
     let decodedToken;
 
     try {
-      decodedToken = verify(token);
-    } catch (error) { throw new AppError({ message: 'Acesso expirado', type: 'Acesso-Expirado', status: 401 }) };
-
-    req.user = { id: decodedToken.id };
-
-    return nxt();
+        decodedToken = verify(token);
+        req.user = { id: decodedToken.id };
+    } catch (error) { return nxt(new AppError({ message: 'Acesso expirado', type: 'Acesso-Expirado', status: 401 })) };
+    return nxt()
 }
