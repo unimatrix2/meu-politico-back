@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 // Import Routes & Auth Middleware here
 // import noticiaRoutes from './noticiaRoutes/noticia.routes';
-import politicoRoutes from './politicoRoutes/private/routes';
+import politicoRoutes from './politicoRoutes/politico.routes.js';
 import authRoutes from './authRoutes/auth.routes';
 
 

@@ -5,27 +5,13 @@ import AppError from '../../../errors/AppError';
 
 const router = Router();
 
-
-router.get('/list/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    const noticia = await politicoService.getOne(id);
-
-    return res.status(200).json(noticia);
-  } catch (error) {
-    return next(new AppError(error));
-  }
-});
-
 // Rotas privadas
 
 router.post('/criar', async (req, res, next) => {
   try {
-    const { id } = req.user;
     const newPolitico = req.body;
 
-    await politicoService.create(newPolitico, id);
+    await politicoService.create(newPolitico);
 
     return res.status(201).json();
   } catch (error) {
@@ -33,7 +19,7 @@ router.post('/criar', async (req, res, next) => {
   }
 });
 
-router.put('/editar/:id',  async (req, res, next) => {
+router.put('/edit/:id',  async (req, res, next) => {
   try {
     const { id } = req.params;
     const updateObject = req.body;

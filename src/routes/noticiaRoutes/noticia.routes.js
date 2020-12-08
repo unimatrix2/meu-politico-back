@@ -10,6 +10,11 @@
 //       return next(new ApplicationError(error));
 //     }
 //   });
+
+//query: listar através de um search os políticos
+// query: string
+// query: começo
+// query: fim
   
 //   router.get('/list/:id', async (req, res, next) => {
 //     try {
