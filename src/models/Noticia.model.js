@@ -10,8 +10,13 @@ const noticiaSchema = new Schema({
     },
     sources: [{ type: String, required: true }],
     politicos: [{ type: Schema.Types.ObjectId, ref: 'Politico', required: true }],
+    status: {
+        type: String,
+        enum: ['autorizar', 'editar', 'arquivar', 'publicado', 'editado', 'arquivado'],
+        required: true
+    },
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     lastEditBy: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
-
+ 
 export const Noticia = model('News', noticiaSchema);

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-//import privateRoutes from './private/routes';
-import AppError from '../../errors/AppError';
+import politicoPrivate from './private/routes';
+import * as AppError from '../../errors/AppError';
 import * as politicoService from '../../services/politico.service';
 
 const router = Router();
@@ -17,7 +17,7 @@ router.get('/lista', async (req, res, nxt) => {
 // query: começo
 // query: fim
 
-router.get('/list/:id', async (req, res, next) => {
+router.get('/listar/:id', async (req, res, next) => {
     try {
       const { id } = req.params;
   
@@ -28,5 +28,7 @@ router.get('/list/:id', async (req, res, next) => {
       return next(new AppError(error));
     }
   });
+
+  router.use('/privado', politicoPrivate);
 
 export default router;

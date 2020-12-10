@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { cpf } from 'cpf-cnpj-validator';
 
-import * as authRepo from '../repositories/auth.repository';
+import * as authRepository from '../repositories/auth.repository';
 import { encrypt, verify } from '../utils/passwordManager';
 import AppError from '../errors/AppError';
 
 
 const verifyExistingUser = async (cpf, email) => {
-    const user = await authRepo.findUser(cpf);
+    const user = await authRepository.findUser(cpf);
     if (user) {
         if (user.cpf === cpf && user.email === email) { throw new AppError({ message: 'Usuário já existe', type: 'Registro-Usuario-Existe', status: 400 }) }
         else if (user.cpf === cpf) { throw new AppError({ message: 'CPF já cadastrado', type: 'Registro-CPF-Existe', status: 400 }) }
@@ -17,7 +17,7 @@ const verifyExistingUser = async (cpf, email) => {
 }
 
 export const tokenFindUser = async id => {
-    const user = await authRepo.tokenFindUser(id);
+    const user = await authRepository.tokenFindUser(id);
     return user;
 }
 
@@ -28,14 +28,14 @@ export const register = async body => {
         const userExists = await verifyExistingUser(body.cpf, body.email);
         if (!userExists) {
             const newUser = { ...body, password: encrypt(body.password) };
-            const othersEmailError = await authRepo.saveUser(newUser);
+            const othersEmailError = await authRepository.saveUser(newUser);
             if (othersEmailError) { throw new AppError({ message: 'E-Mail já cadastrado', type: 'Registro-Email-Existe', status: 400 }) }
         }
     } catch (error) { throw new AppError(error) }
 }
 
 export const authenticateUser = async credentials => {
-    const userFromDb = await authRepo.findUser(credentials.cpf);
+    const userFromDb = await authRepository.findUser(credentials.cpf);
     if (!userFromDb) { throw new AppError({ message: 'Email ou senha incorretos', type: 'Acesso-Credencial-Invalida', status: 400 }) };
     const isPasswordValid = verify(credentials.password, userFromDb.password);
     if (!isPasswordValid) { throw new AppError({ message: 'Email ou senha incorretos', type: 'Acesso-Credencial-Invalida', status: 400 }) };

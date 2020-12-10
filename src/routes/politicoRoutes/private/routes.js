@@ -2,15 +2,27 @@ import { Router } from 'express';
 
 import * as politicoService from '../../../services/politico.service';
 import AppError from '../../../errors/AppError';
-//import { routeProtection } from '../../middlewares/protectedRoute';
+import { routeProtection } from '../../../middlewares/protectedRoute';
 
 const router = Router();
 
+router.use(routeProtection);
+
+router.get('/token', async (req, res, nxt) => {
+  try {
+      const user = await authService.tokenFindUser(req.user.id);
+      res.status(200).json(user);
+  } catch (error) {
+      return nxt(new AppError(error))
+  }
+})
+
 router.post('/criar', async (req, res, next) => {
   try {
+    const { id } = req.user;
     const newPolitico = req.body; 
 
-    await politicoService.create(newPolitico);
+    await politicoService.create(newPolitico, id);
 
     return res.status(201).json();
   } catch (error) {
@@ -30,17 +42,5 @@ router.put('/editar/:id',  async (req, res, next) => {
     return next(new AppError(error));
   }
 });
-
-//router.use(routeProtection);
-
-// router.get('/token', async (req, res, nxt) => {
-//   try {
-//       const user = await authService.tokenFindUser(req.user.id);
-//       res.status(200).json(user);
-//   } catch (error) {
-//       return nxt(new AppError(error))
-//   }
-// })
-
     
 export default router;

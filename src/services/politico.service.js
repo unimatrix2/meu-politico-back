@@ -1,5 +1,5 @@
 import * as politicoRepository from '../repositories/politico.repository';
-import AppError from '../errors/AppError';
+import * as AppError from '../errors/AppError';
 
 export const getAll = async () => {
     try {
@@ -15,8 +15,8 @@ export const getOne = async (id) => {
     } catch (error) { throw new AppError({ message: error.message, type: 'Político - GetOne Method', status: 502 }) };
 }
 
-export const create = async (newObject) => {
-    const newPolitico =  await politicoRepository.create(newObject);
+export const create = async (newObject, id) => {
+    const newPolitico =  await politicoRepository.create(newObject, id);
     return newPolitico;
 }
 
@@ -25,6 +25,6 @@ export const updateOne = async (updateObject) => {
         const updatedPolitico = await politicoRepository.updateOne(updateObject);
         return updatedPolitico;
     } catch (error) {
-      throw new ApplicationError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
+      throw new AppError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
     }
   }
