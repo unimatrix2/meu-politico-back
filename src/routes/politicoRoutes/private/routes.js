@@ -2,28 +2,25 @@ import { Router } from 'express';
 
 import * as politicoService from '../../../services/politico.service';
 import AppError from '../../../errors/AppError';
+import { routeProtection } from '../../../middlewares/protectedRoute';
 
 const router = Router();
 
+router.use(routeProtection);
 
-router.get('/list/:id', async (req, res, next) => {
+router.get('/token', async (req, res, nxt) => {
   try {
-    const { id } = req.params;
-
-    const noticia = await politicoService.getOne(id);
-
-    return res.status(200).json(noticia);
+      const user = await authService.tokenFindUser(req.user.id);
+      res.status(200).json(user);
   } catch (error) {
-    return next(new AppError(error));
+      return nxt(new AppError(error))
   }
-});
-
-// Rotas privadas
+})
 
 router.post('/criar', async (req, res, next) => {
   try {
     const { id } = req.user;
-    const newPolitico = req.body;
+    const newPolitico = req.body; 
 
     await politicoService.create(newPolitico, id);
 

@@ -18,5 +18,5 @@ const noticiaSchema = new Schema({
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     lastEditBy: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
-
+ 
 export const Noticia = model('News', noticiaSchema);

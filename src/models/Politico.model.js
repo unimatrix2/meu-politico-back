@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 /* import joi from 'joi'; */
-
+ 
 const politicoSchema = new Schema({
     fullName: { type: String, required: true, min: 10, max: 150 },
     currentPosition: {
@@ -31,5 +31,5 @@ const politicoSchema = new Schema({
     imageURL: { type: String },
     lastEditBy: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
-
+ 
 export const Politico = model('Politico', politicoSchema);
