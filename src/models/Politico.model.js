@@ -18,6 +18,13 @@ const politicoSchema = new Schema({
         enum: ['autorizar', 'editar', 'arquivar', 'publicado', 'editado', 'arquivado'],
         required: true
     },
+    province: {
+        type: String,
+        enum: ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
+        'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN',
+        'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'],
+        required: true
+    },
     news: [{ type: Schema.Types.ObjectId, ref: 'News' }],
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     officialInfoURL: { type: String, required: true },
