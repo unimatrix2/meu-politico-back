@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { cpf } from 'cpf-cnpj-validator';
 
 import * as authRepo from '../repositories/auth.repository';
 import { encrypt, verify } from '../utils/passwordManager';
@@ -22,6 +23,8 @@ export const tokenFindUser = async id => {
 
 export const register = async body => {
     try {
+        const validCpf = cpf.isValid(body.cpf);
+        if(!validCpf) { throw new AppError({ message: 'CPF inválido', type: 'Registro-Cpf-Invalido', status: 400 }) }
         const userExists = await verifyExistingUser(body.cpf, body.email);
         if (!userExists) {
             const newUser = { ...body, password: encrypt(body.password) };

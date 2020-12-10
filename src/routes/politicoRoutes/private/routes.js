@@ -8,7 +8,7 @@ const router = Router();
 
 router.post('/criar', async (req, res, next) => {
   try {
-    const newPolitico = req.body;
+    const newPolitico = req.body; 
 
     await politicoService.create(newPolitico);
 

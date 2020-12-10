@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import noticiasService from '../../../services/noticia.service';
+import * as noticiasService from '../../../services/noticia.service';
 import AppError from '../../../errors/AppError';
 //import { routeProtection } from '../../middlewares/protectedRoute';
 
