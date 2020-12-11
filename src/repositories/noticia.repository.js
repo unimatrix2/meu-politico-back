@@ -21,12 +21,15 @@ export const getOne = async (id) => {
   return noticia;
 }
 
-export const create = async (newObject) => {
-  const newNoticia = new Noticia(newObject);
+export const create = async (newObject, id) => {
+    try {
+        const newNoticia = new Noticia({ ...newObject, owner: id });
 
-  await newNoticia.save();
+        await newNoticia.save();
+      
+        return newNoticia;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Create', status: 409 }) }
 
-  return newNoticia;
 }
 
 export const updateOne = async (updateObject, id) => {
