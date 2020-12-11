@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 // Import Routes & Auth Middleware here
+import authRoutes from './authRoutes/auth.routes';
 import noticiaRoutes from './noticiaRoutes/noticia.routes';
 import politicoRoutes from './politicoRoutes/politico.routes';
 
