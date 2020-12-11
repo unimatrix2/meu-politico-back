@@ -1,5 +1,5 @@
 import { Politico } from '../models/Politico.model';
-import * as AppError from '../errors/AppError';
+import AppError from '../errors/AppError';
 
 export const getAll = async () => {
     try {

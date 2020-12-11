@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import politicoPrivate from './private/routes';
-import * as AppError from '../../errors/AppError';
+import AppError from '../../errors/AppError';
 import * as politicoService from '../../services/politico.service';
 
 const router = Router();
