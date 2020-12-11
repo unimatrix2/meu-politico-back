@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
-//import privateRoutes from './private/routes';
+import noticiaPrivate from './private/routes';
+import { routeProtection } from '../../middlewares/protectedRoute';
 import AppError from '../../errors/AppError';
 import * as noticiasService from '../../services/noticia.service';
 
@@ -34,5 +35,6 @@ router.get('/listar', async (req, res, next) => {
 //       return next(new ApplicationError(error));
 //     }
 //   });
-
+router.use(routeProtection);
+router.use('/privado', noticiaPrivate);
 export default router;
