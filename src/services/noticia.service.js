@@ -2,11 +2,18 @@ import * as noticiaRepository from '../repositories/noticia.repository';
 import AppError from '../errors/AppError';
 
 export const getOne = async (id) => {
-  try {
-      const noticia = await noticiaRepository.getOne(id);
-      return noticia;
-  } catch (error) { throw new AppError({ message: error.message, type: 'Notícia - GetOne Method', status: 502 }) };
+    try {
+        const noticia = await noticiaRepository.getOne(id);
+        return noticia;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Notícia - GetOne Method', status: 502 }) };
 }
+
+export const search = async (string) => {
+    try {
+        const noticias = await noticiaRepository.search(string);
+        return noticias;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Search' }) }
+} 
 
 export const create = async (newObject) => {
   const newNoticia =  await noticiaRepository.create(newObject);

@@ -5,7 +5,14 @@ export const getAll = async () => {
     try {
         const noticias = await Noticia.find({});
         return noticias;
-    } catch (error) { throw new AppError() }
+    } catch (error) { throw new AppError(error) }
+}
+
+export const search = async (string) => {
+    try {
+        const noticias = await Noticia.find({ headline: string });
+        return noticias;
+    } catch (error) { throw new AppError(error) }
 }
 
 export const getOne = async (id) => {
