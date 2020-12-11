@@ -8,15 +8,6 @@ const router = Router();
 
 router.use(routeProtection);
 
-router.get('/token', async (req, res, nxt) => {
-  try {
-      const user = await authService.tokenFindUser(req.user.id);
-      res.status(200).json(user);
-  } catch (error) {
-      return nxt(new AppError(error))
-  }
-})
-
 router.post('/criar', async (req, res, next) => {
   try {
     const { id } = req.user;
