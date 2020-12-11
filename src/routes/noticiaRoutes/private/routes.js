@@ -7,6 +7,7 @@ import { routeProtection } from '../../../middlewares/protectedRoute';
 const router = Router();
 
 router.post('/privado/criar', async (req, res, next) => {
+
   try {
     const { id } = req.user;
     const newNoticia = req.body;
@@ -18,6 +19,7 @@ router.post('/privado/criar', async (req, res, next) => {
     return next(new AppError(error));
   }
 });
+
 
 router.put('/editar/:id', async (req, res, next) => {
   try {
