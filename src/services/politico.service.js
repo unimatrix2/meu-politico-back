@@ -4,9 +4,7 @@ import AppError from '../errors/AppError';
 const verifyExistingPolitico = async (fullName, officialInfoURL) => {
     const politicoInfo = await politicoRepository.findPolitico(fullName, officialInfoURL);
     if (politicoInfo) {
-        if (politicoInfo.fullName === fullName) {
-            if (politicoInfo.officialInfoURL === officialInfoURL) { throw new AppError({ message: 'Político já existe', type: 'Politico-Existe', status: 400 }) }
-        }
+        if (politicoInfo.fullName === fullName || politicoInfo.officialInfoURL === officialInfoURL) { throw new AppError({ message: 'Político já existe', type: 'Politico-Existe', status: 400 }) }
     }   
 }
 

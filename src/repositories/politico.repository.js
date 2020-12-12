@@ -4,7 +4,7 @@ import AppError from '../errors/AppError';
 export const findPolitico = async (fullName, officialInfoURL) => {
   const politicoName = await Politico.findOne({ fullName }).select('fullName -_id');
   const politicoInfoURL = await Politico.findOne({ officialInfoURL }).select('officialInfoURL -_id');
-  return {'fullname': politicoName, 'officialInfoURL': politicoInfoURL};
+  return {'fullName': politicoName.fullName, 'officialInfoURL': politicoInfoURL.officialInfoURL};
 }
 
 export const getAll = async () => {
