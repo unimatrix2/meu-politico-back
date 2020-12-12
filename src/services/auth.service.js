@@ -11,20 +11,22 @@ const verifyExistingUser = async (cpf, email) => {
     if (user) {
         if (user.cpf === cpf && user.email === email) { throw new AppError({ message: 'Usuário já existe', type: 'Registro-Usuario-Existe', status: 400 }) }
         else if (user.cpf === cpf) { throw new AppError({ message: 'CPF já cadastrado', type: 'Registro-CPF-Existe', status: 400 }) }
-
     }
 
 }
 
 export const tokenFindUser = async id => {
-    const user = await authRepository.tokenFindUser(id);
-    return user;
+    try {
+        const user = await authRepository.tokenFindUser(id);
+        return user;
+    } catch (error) { throw new AppError(error) }
+
 }
 
 export const register = async body => {
     try {
         const validCpf = cpf.isValid(body.cpf);
-        if(!validCpf) { throw new AppError({ message: 'CPF inválido', type: 'Registro-Cpf-Invalido', status: 400 }) }
+        if (!validCpf) { throw new AppError({ message: 'CPF Inválido', type: 'Registro-CPF-Invalido', status: 400 }) }
         const userExists = await verifyExistingUser(body.cpf, body.email);
         if (!userExists) {
             const newUser = { ...body, password: encrypt(body.password) };

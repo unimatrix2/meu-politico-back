@@ -13,7 +13,7 @@ router.post('/registro', validateSignupParams, async (req, res, next) => {
     await authService.register(body);
 
     return res.status(201).json({ message: 'Usuário criado com sucesso!' });
-  } catch (error) { return next(error) }
+  } catch (error) { return next(new AppError(error)) }
 });
 
 router.post('/acesso', validateLoginParams, async (req, res, next) => {

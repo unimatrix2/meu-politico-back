@@ -20,6 +20,16 @@ export const getOne = async (id) => {
   return politico;
 }
 
+export const searchReturnID = async (string) => {
+  try {
+    const politico = await Politico.find({ fullName: string });
+    return politico._id;
+  } catch (error) {
+    throw new AppError({ message: error.message, type: 'Politico-Search' })
+  }
+
+}
+
 export const create = async (newObject, id) => {
   try{ 
     const newPolitico = new Politico({ ...newObject, owner: id });
