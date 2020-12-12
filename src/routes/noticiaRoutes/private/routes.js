@@ -7,16 +7,13 @@ const router = Router();
 
 router.post('/criar', async (req, res, next) => {
   try {
-    console.log(req.body)
     const { id } = req.user;
     const newNoticia = req.body;
 
     await noticiasService.create(newNoticia, id);
 
     return res.status(201).json();
-  } catch (error) {
-    return next(new AppError(error));
-  }
+  } catch (error) { return next(new AppError(error)) };
 });
 
 

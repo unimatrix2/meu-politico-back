@@ -21,9 +21,9 @@ export const getOne = async (id) => {
   return noticia;
 }
 
-export const create = async (newObject, id) => {
+export const create = async (newObject, politicos, sources, id) => {
     try {
-        const newNoticia = new Noticia({ ...newObject, owner: id });
+        const newNoticia = new Noticia({ ...newObject, politicos: politicos, owner: id, sources: sources });
 
         await newNoticia.save();
       

@@ -18,14 +18,13 @@ export const search = async (string) => {
 
 export const create = async (newObject, id) => {
     try {
-        console.log(newObject)
         const politicos = newObject.politicos.split(',').map(politico => searchReturnID(politico))
+        const sources = newObject.sources.split(',');
         const politicosArray = await Promise.all(politicos);
-        console.log(politicos)
-        /* const newNoticia = await noticiaRepository.create(newObject, id);
-        return newNoticia; */
+        const newNoticia = await noticiaRepository.create(newObject, politicosArray, sources, id);
+        return newNoticia;
     } catch (error) {
-        throw new AppError
+        throw new AppError(error)
     }
 }
 
