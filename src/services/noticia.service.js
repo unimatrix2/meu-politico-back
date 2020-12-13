@@ -33,6 +33,13 @@ export const updateOne = async (updateObject) => {
       const updatedNoticia = await noticiaRepository.updateOne(updateObject);
       return updatedNoticia;
   } catch (error) {
-    throw new ApplicationError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
+    throw new AppError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
   }
+}
+
+export const userList = async (id) => {
+    try {
+        const noticias = await noticiaRepository.getUserList(id);
+        return noticias;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-UserList-Method' }) };
 }

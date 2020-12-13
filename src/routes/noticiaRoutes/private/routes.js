@@ -18,16 +18,22 @@ router.post('/criar', async (req, res, next) => {
 
 
 router.put('/editar/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    const updatedNoticia = await noticiasService.updateOne(updateObject, id);
+        const updatedNoticia = await noticiasService.updateOne(updateObject, id);
 
-    return res.status(200).json(updatedNoticia);
-  } catch (error) {
-    return next(new AppError(error));
-  }
+        return res.status(200).json(updatedNoticia);
+    } catch (error) { return next(new AppError(error)) };
 });
+
+router.get('/lista', async (req, res, nxt) => {
+    try {
+        const { id } = req.user;
+        const noticias = await noticiasService.userList(id);
+        return res.status(200).json(noticias)
+    } catch (error) { return nxt(new AppError(error)) };
+})
 
     
 export default router;
