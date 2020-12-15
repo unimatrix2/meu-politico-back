@@ -7,7 +7,7 @@ import * as noticiasService from '../../services/noticia.service';
 
 const router = Router();
 
-router.get('/listar', async (req, res, next) => {
+router.get('/buscar', async (req, res, next) => {
     try {
       const { search } = req.query;
   
