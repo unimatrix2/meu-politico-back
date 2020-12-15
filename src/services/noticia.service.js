@@ -13,7 +13,7 @@ export const search = async (string) => {
     try {
         const noticias = await noticiaRepository.search(string);
         return noticias;
-    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Search', status: 502 }) }
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Busca', status: 502 }) }
 } 
 
 export const create = async (newObject, id) => {

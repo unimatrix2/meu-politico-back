@@ -20,13 +20,14 @@ export const search = async (string) => {
     try {
         const noticias = await Noticia.find({ headline: string });
         return noticias;
-    } catch (error) { throw new AppError(error) }
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Busca', status: 500 }) }
 }
 
 export const getOne = async (id) => {
-    const noticia = await Noticia.findById(id);
-
-    return noticia;
+    try {
+        const noticia = await Noticia.findById(id);
+        return noticia;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Unitaria', status: 500 }) }
 }
 
 export const create = async (newObject, politicos, sources, id) => {
@@ -37,7 +38,7 @@ export const create = async (newObject, politicos, sources, id) => {
         const politicosToInvolve = politicos.map(politico => Politico.findByIdAndUpdate(politico, { $push: { news: savedNoticia._id } }));
         await Promise.all(politicosToInvolve);
         return savedNoticia;
-    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Create', status: 409 }) }
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Criar', status: 409 }) }
 
 }
 
