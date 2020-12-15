@@ -22,7 +22,7 @@ export const getOne = async (id) => {
 
 export const searchReturnID = async (string) => {
   try {
-    const politico = await Politico.find({ fullName: string });
+    const politico = await Politico.findOne({ fullName: string });
     return politico._id;
   } catch (error) {
     throw new AppError({ message: error.message, type: 'Politico-Search' })

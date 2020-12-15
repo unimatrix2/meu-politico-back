@@ -18,14 +18,13 @@ export const search = async (string) => {
 
 export const create = async (newObject, id) => {
     try {
-        console.log(newObject)
         const politicos = newObject.politicos.split(',').map(politico => searchReturnID(politico))
+        const sources = newObject.sources.split(',');
         const politicosArray = await Promise.all(politicos);
-        console.log(politicos)
-        /* const newNoticia = await noticiaRepository.create(newObject, id);
-        return newNoticia; */
+        const newNoticia = await noticiaRepository.create(newObject, politicosArray, sources, id);
+        return newNoticia;
     } catch (error) {
-        throw new AppError
+        throw new AppError(error)
     }
 }
 
@@ -34,6 +33,13 @@ export const updateOne = async (updateObject) => {
       const updatedNoticia = await noticiaRepository.updateOne(updateObject);
       return updatedNoticia;
   } catch (error) {
-    throw new ApplicationError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
+    throw new AppError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
   }
+}
+
+export const userList = async (id) => {
+    try {
+        const noticias = await noticiaRepository.getUserList(id);
+        return noticias;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-UserList-Method' }) };
 }
