@@ -43,11 +43,13 @@ export const create = async (newObject, politicos, sources, id) => {
 }
 
 export const updateOne = async (updateObject, id) => {
-    const updatedNoticia = await Noticia.findByIdAndUpdate(
-        id,
-        updateObject,
-        { new: true, useFindAndModify: false },
-     );
+    try {
+        const updatedNoticia = await Noticia.findByIdAndUpdate(
+            id,
+            updateObject,
+            { new: true, useFindAndModify: false },
+        );  
+        return updatedNoticia;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Editar', status: 500 }) }
 
-  return updatedNoticia;
 }
