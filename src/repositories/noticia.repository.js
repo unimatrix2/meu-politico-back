@@ -25,7 +25,7 @@ export const search = async (string) => {
 
 export const getOne = async (id) => {
     try {
-        const noticia = await Noticia.findById(id);
+        const noticia = await Noticia.findById(id).populate('politicos');
         return noticia;
     } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Unitaria', status: 500 }) }
 }
