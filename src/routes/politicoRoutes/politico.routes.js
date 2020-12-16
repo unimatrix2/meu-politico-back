@@ -17,18 +17,6 @@ router.get('/lista', async (req, res, nxt) => {
 // query: começo
 // query: fim
 
-router.get('/listar/:id', async (req, res, next) => {
-    try {
-      const { id } = req.params;
-  
-      const noticia = await politicoService.getOne(id);
-  
-      return res.status(200).json(noticia);
-    } catch (error) {
-      return next(new AppError(error));
-    }
-  });
-
   router.use('/privado', politicoPrivate);
 
 export default router;

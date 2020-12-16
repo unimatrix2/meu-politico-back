@@ -8,6 +8,25 @@ const router = Router();
 
 router.use(routeProtection);
 
+router.get('/lista', async (req, res, nxt) => {
+  try {
+      const politicos = await politicoService.getAll();
+      res.status(200).json(politicos);
+  } catch (error) { return nxt(new AppError(error)) };
+});
+
+router.get('/listar/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const noticia = await politicoService.getOne(id);
+
+    return res.status(200).json(noticia);
+  } catch (error) {
+    return next(new AppError(error));
+  }
+});
+
 router.post('/criar', async (req, res, next) => {
   try {
     const { id } = req.user;
