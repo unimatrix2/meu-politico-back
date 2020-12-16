@@ -1,9 +1,12 @@
 import { Router } from 'express';
 
+import { routeProtection } from '../../../middlewares/protectedRoute'; 
 import * as noticiasService from '../../../services/noticia.service';
 import AppError from '../../../errors/AppError';
 
 const router = Router();
+
+router.use(routeProtection);
 
 router.post('/criar', async (req, res, next) => {
   try {
@@ -15,7 +18,6 @@ router.post('/criar', async (req, res, next) => {
     return res.status(201).json();
   } catch (error) { return next(new AppError(error)) };
 });
-
 
 router.put('/editar/:id', async (req, res, next) => {
     try {
@@ -35,5 +37,4 @@ router.get('/lista', async (req, res, nxt) => {
     } catch (error) { return nxt(new AppError(error)) };
 })
 
-    
 export default router;
