@@ -23,9 +23,9 @@ router.put('/editar/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const updateObject = req.body;
-        const updatedNoticia = await noticiasService.updateOne(updateObject, id);
+        await noticiasService.updateOne(updateObject, id);
 
-        return res.status(200).json(updatedNoticia);
+        return res.status(200).json();
     } catch (error) { return next(new AppError(error)) };
 });
 
