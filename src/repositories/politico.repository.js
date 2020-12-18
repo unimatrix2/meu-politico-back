@@ -46,3 +46,10 @@ export const updateOne = async (updateObject, id) => {
     return updatedPolitico;
   } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Editar', status: 500 }) }
 }
+
+export const search = async string => {
+  try {
+      const politicos = await Politico.find({ fullName: { $regex: string, $options: 'i' } });
+      return politicos;
+  } catch (error) { throw new AppError({ message: error.message, type: 'Politico-Busca', status: 500 }) }
+}

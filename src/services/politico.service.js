@@ -29,3 +29,10 @@ export const updateOne = async (updateObject, id) => {
         return updatedPolitico;
     } catch (error) { throw new AppError({ message: error.message,type: 'Politico-UpdateOne-Method', status: 500 }) }
 }
+
+export const search = async (string) => {
+    try {
+        const politicos = await politicoRepository.search(string);
+        return politicos;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Politico-Busca', status: 500 }) }
+} 

@@ -9,9 +9,9 @@ const router = Router();
 
 router.get('/buscar', async (req, res, next) => {
     try {
-        const { search } = req.query;
+        const { busca } = req.query;
 
-        const politicos = await politicoService.search(search);
+        const politicos = await politicoService.search(busca);
 
         return res.status(200).json(politicos);
     } catch (error) {
