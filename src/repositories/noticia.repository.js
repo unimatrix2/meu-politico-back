@@ -18,7 +18,7 @@ export const getAll = async () => {
 
 export const search = async string => {
     try {
-        const noticias = await Noticia.find({ headline: { $regex: string } });
+        const noticias = await Noticia.find({ headline: { $regex: string, $options: 'i' } });
         return noticias;
     } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Busca', status: 500 }) }
 }
