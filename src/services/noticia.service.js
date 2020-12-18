@@ -32,7 +32,8 @@ export const updateOne = async (updateObject, id) => {
     try {
         const politicos = updateObject.politicos.split(',').map(pol => searchReturnID(pol));
         const politicosArray = await Promise.all(politicos);
-        const noticiaToUpdate = {...updateObject, politicos: politicosArray}
+        const sourcesArray = updateObject.sources.split(',');
+        const noticiaToUpdate = {...updateObject, politicos: politicosArray, sources: sourcesArray}
         const updatedNoticia = await noticiaRepository.updateOne(noticiaToUpdate, id);
         return updatedNoticia;
     } catch (error) { throw new AppError({ message: error.message,type: 'Noticia-UpdateOne-Method', status: 500 }) }
