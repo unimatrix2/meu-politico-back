@@ -1,60 +1,40 @@
 import { Router } from 'express';
 
-import Noticia from '../../../models/Noticia.model';
-import noticiasService from '../../../services/noticia.service';
-import ApplicationError from '../../../errors/AppError';
+import { routeProtection } from '../../../middlewares/protectedRoute'; 
+import * as noticiasService from '../../../services/noticia.service';
+import AppError from '../../../errors/AppError';
 
 const router = Router();
 
-router.get('/list', async (req, res, next) => {
-  try {
-    const { id } = req.user;
-    const { search } = req.query;
+router.use(routeProtection);
 
-    const noticias = await noticiasService.get(id, search);
+router.post('/criar', async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const newNoticia = req.body;
 
-    return res.status(200).json(noticias);
-  } catch (error) {
-    return next(new ApplicationError(error));
-  }
+        await noticiasService.create(newNoticia, id);
+
+        return res.status(201).json();
+    } catch (error) { return next(new AppError(error)) };
 });
 
-router.get('/list/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
+router.put('/editar/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const updateObject = req.body;
+        await noticiasService.updateOne(updateObject, id);
 
-    const noticia = await noticiasService.getOne(id);
-
-    return res.status(200).json(noticia);
-  } catch (error) {
-    return next(new ApplicationError(error));
-  }
+        return res.status(200).json();
+    } catch (error) { return next(new AppError(error)) };
 });
 
-router.post('/create', async (req, res, next) => {
-  try {
-    const { id } = req.user;
-    const newNoticia = req.body;
+router.get('/lista', async (req, res, nxt) => {
+    try {
+        const { id } = req.user;
+        const noticias = await noticiasService.userList(id);
+        return res.status(200).json(noticias)
+    } catch (error) { return nxt(new AppError(error)) };
+})
 
-    await noticiasService.create(newNoticia, id);
-
-    return res.status(201).json();
-  } catch (error) {
-    return next(new ApplicationError(error));
-  }
-});
-
-router.put('/edit/:id', Noticia.validateUpdateParams, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const updateObject = projectsMapper.updateOne(req.body);
-
-    const updatedNoticia = await noticiasService.updateOne(updateObject, id);
-
-    return res.status(200).json(updatedNoticia);
-  } catch (error) {
-    return next(new ApplicationError(error));
-  }
-});
-    
 export default router;

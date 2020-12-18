@@ -1,51 +1,45 @@
-/* import { Router } from 'express';
+import { Router } from 'express';
 
-import Politico from '../../../models/Politico.model';
-import noticiasService from '../../../services/politico.service';
-import ApplicationError from '../../../errors/AppError';
+import * as politicoService from '../../../services/politico.service';
+import AppError from '../../../errors/AppError';
+import { routeProtection } from '../../../middlewares/protectedRoute';
 
 const router = Router();
 
+router.use(routeProtection);
 
-router.get('/list/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    const noticia = await noticiasService.getOne(id);
-
-    return res.status(200).json(noticia);
-  } catch (error) {
-    return next(new ApplicationError(error));
-  }
-});
-
-// Rotas privadas
-
-router.post('/create', async (req, res, next) => {
+router.post('/criar', async (req, res, next) => {
   try {
     const { id } = req.user;
-    const newNoticia = req.body;
+    const newPolitico = req.body; 
 
-    await noticiasService.create(newNoticia, id);
+    await politicoService.create(newPolitico, id);
 
     return res.status(201).json();
   } catch (error) {
-    return next(new ApplicationError(error));
+    return next(new AppError(error));
   }
 });
 
-router.put('/edit/:id', Noticia.validateUpdateParams, async (req, res, next) => {
+router.get('/lista', async (req, res, nxt) => {
+  try {
+      const politicos = await politicoService.getAll();
+      res.status(200).json(politicos);
+  } catch (error) { return nxt(new AppError(error)) };
+});
+
+
+router.put('/editar/:id',  async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updateObject = projectsMapper.updateOne(req.body);
+    const updateObject = req.body;
 
-    const updatedNoticia = await noticiasService.updateOne(updateObject, id);
+    await politicoService.updateOne(updateObject, id);
 
-    return res.status(200).json(updatedNoticia);
+    return res.status(200).json();
   } catch (error) {
-    return next(new ApplicationError(error));
+    return next(new AppError(error));
   }
 });
     
 export default router;
- */

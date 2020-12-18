@@ -1,41 +1,46 @@
-import noticiaRepository from '../repository/noticia.repository';
+import * as noticiaRepository from '../repositories/noticia.repository';
+import { searchReturnID } from '../repositories/politico.repository';
+import AppError from '../errors/AppError';
 
-import ApplicationError from '../errors/AppError';
-
-class NoticiasService {
-  constructor(noticiasRepo) {
-    this.noticiaRepository = noticiasRepo;
-  }
-
-  async get(id, search) {
+export const getOne = async (id) => {
     try {
-      const noticiasFromDb = await this.noticiaRepository.get(id, search);
-
-      return noticiasFromDb;
-    } catch (error) {
-      throw new ApplicationError({ message: error.message, type: 'Noticias - Get Method', status: 502 });
-    }
-  }
-
-  async getOne(id) {
-    const noticiaFromDb = await this.noticiaRepository.getOne(id);
-
-    return noticiaFromDb;
-  }
-
-  async create(newNoticia, id) {
-    await this.noticiaRepository.create(newNoticia, id);
-  }
-
-  async updateOne(updateObject, id) {
-    try {
-      const updatedNoticia = await this.noticiaRepository.updateOne(updateObject, id);
-
-      return updatedNoticia;
-    } catch (error) {
-      throw new ApplicationError({ message: error.message, status: 504 });
-    }
-  }
+        const noticia = await noticiaRepository.getOne(id);
+        return noticia;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Notícia - GetOne Method', status: 500 }) };
 }
 
-export default new NoticiasService(noticiaRepository);
+export const search = async (string) => {
+    try {
+        const noticias = await noticiaRepository.search(string);
+        return noticias;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Busca', status: 500 }) }
+} 
+
+export const create = async (newObject, id) => {
+    try {
+        const politicos = newObject.politicos.split(',').map(politico => searchReturnID(politico))
+        const sources = newObject.sources.split(',');
+        const politicosArray = await Promise.all(politicos);
+        const newNoticia = await noticiaRepository.create(newObject, politicosArray, sources, id);
+        return newNoticia;
+    } catch (error) {
+        throw new AppError(error)
+    }
+}
+
+export const updateOne = async (updateObject, id) => {
+    try {
+        const politicos = updateObject.politicos.split(',').map(pol => searchReturnID(pol));
+        const politicosArray = await Promise.all(politicos);
+        const noticiaToUpdate = {...updateObject, politicos: politicosArray}
+        const updatedNoticia = await noticiaRepository.updateOne(noticiaToUpdate, id);
+        return updatedNoticia;
+    } catch (error) { throw new AppError({ message: error.message,type: 'Noticia-UpdateOne-Method', status: 500 }) }
+}
+
+export const userList = async (id) => {
+    try {
+        const noticias = await noticiaRepository.getUserList(id);
+        return noticias;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-UserList-Method', status: 500 }) };
+}
