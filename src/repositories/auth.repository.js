@@ -1,3 +1,4 @@
+import AppError from '../errors/AppError';
 import { User } from '../models/User.model';
 
 export const findUser = async cpf => {
@@ -27,4 +28,15 @@ export const saveUser = async body => {
             return Object.keys(error.keyValue);
         } else console.log(error)
     }
+}
+
+export const updateUser = async (body, id) => {
+    try {
+        const user = await User.findByIdAndUpdate(
+            id,
+            body,
+            { new: true, useFindAndModify: false },
+        );
+        return user;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Atualizar-Usuario', type: 500 }) }
 }

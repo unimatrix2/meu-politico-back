@@ -50,3 +50,11 @@ export const authenticateUser = async credentials => {
 
     return token;
 }
+
+export const updateUser = async (body, id) => {
+    try {
+        const userToUpdate = { ...body, password: encrypt(body.password) }
+        const updatedUser = await authRepository.updateUser(userToUpdate, id);
+        return updatedUser;
+    } catch (error) { throw new AppError({message: error.message, type: 'Atualizar-Usuario', status: 500}) }
+}

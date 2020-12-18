@@ -31,17 +31,16 @@ router.get('/token', async (req, res, nxt) => {
     try {
         const user = await authService.tokenFindUser(req.user.id);
         res.status(200).json(user);
-    } catch (error) {
-        return nxt(new AppError(error))
-    }
+    } catch (error) { return nxt(new AppError(error)) }
 })
 
 router.put('/privado/atualizar', async (req, res, next) => {
     try {
-        console.log(req.body, req.user)
-    } catch (error) {
-    
-    }
+        const { id } = req.user;
+        const updatedUser = req.body
+        const user = await authService.updateUser(updatedUser, id);
+        res.status(200).json();
+    } catch (error) { return next(new AppError(error)) }
 })
 
 export default router;
