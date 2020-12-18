@@ -41,11 +41,12 @@ export const create = async (newObject, id) => {
 }
 
 export const updateOne = async (updateObject, id) => {
-  const updatedPolitico = await Politico.findByIdAndUpdate(
-    id,
-    updateObject,
-    { new: true, useFindAndModify: false },
+  try {
+    const updatedPolitico = await Politico.findByIdAndUpdate(
+      id,
+      updateObject,
+      { new: true, useFindAndModify: false },
   );
-
   return updatedPolitico;
+} catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Editar', status: 500 }) }
 }

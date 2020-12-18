@@ -31,12 +31,11 @@ router.get('/lista', async (req, res, nxt) => {
 
 router.put('/editar/:id',  async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const updateObject = req.body;
+        const { id } = req.params;
+        const updateObject = req.body;
+        await politicoService.updateOne(updateObject, id);
 
-    const updatedPolitico = await politicoService.updateOne(updateObject, id);
-
-    return res.status(200).json(updatedPolitico);
+        return res.status(200).json();
   } catch (error) {
     return next(new AppError(error));
   }
