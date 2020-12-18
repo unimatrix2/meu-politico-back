@@ -9,9 +9,10 @@ export const getAll = async () => {
 }
 
 export const getOne = async (id) => {
-  const politico = await Politico.findById(id);
-
-  return politico;
+  try {
+    const politico = await Politico.findById(id).populate('news');
+    return politico;
+  } catch (error) { throw new AppError({ message: error.message, type: 'Politico-GetOne' }) }
 }
 
 export const searchReturnID = async (string) => {
@@ -19,7 +20,7 @@ export const searchReturnID = async (string) => {
     const politico = await Politico.findOne({ fullName: string });
     return politico._id;
   } catch (error) {
-    throw new AppError({ message: error.message, type: 'Politico-Search' })
+    throw new AppError({ message: error.message, type: 'Politico-Search', status: 500 })
   }
 
 }
@@ -31,15 +32,17 @@ export const create = async (newObject, id) => {
     await newPolitico.save();
   
     return newPolitico;
-  } catch (error) { throw new AppError({ message: error.message, type: 'Político - Create Method', status: 409 }) };
+  } catch (error) { throw new AppError({ message: error.message, type: 'Politico-Criar', status: 409 }) };
 }
 
 export const updateOne = async (updateObject, id) => {
-  const updatedPolitico = await Politico.findByIdAndUpdate(
-    id,
-    updateObject,
-    { new: true, useFindAndModify: false },
-  );
-
-  return updatedPolitico;
+  try {
+    const updatedPolitico = await Politico.findByIdAndUpdate(
+      id,
+      updateObject,
+      { new: true, useFindAndModify: false },
+    );
+  
+    return updatedPolitico;
+  } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Editar', status: 500 }) }
 }

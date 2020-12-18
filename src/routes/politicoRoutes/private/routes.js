@@ -21,14 +21,22 @@ router.post('/criar', async (req, res, next) => {
   }
 });
 
+router.get('/lista', async (req, res, nxt) => {
+  try {
+      const politicos = await politicoService.getAll();
+      res.status(200).json(politicos);
+  } catch (error) { return nxt(new AppError(error)) };
+});
+
+
 router.put('/editar/:id',  async (req, res, next) => {
   try {
     const { id } = req.params;
     const updateObject = req.body;
 
-    const updatedPolitico = await politicoService.updateOne(updateObject, id);
+    await politicoService.updateOne(updateObject, id);
 
-    return res.status(200).json(updatedPolitico);
+    return res.status(200).json();
   } catch (error) {
     return next(new AppError(error));
   }

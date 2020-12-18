@@ -9,6 +9,16 @@ export const getUserList = async (id) => {
     } catch (error) { throw new AppError(error) }
 }
 
+export const searchReturnID = async (string) => {
+    try {
+      const news = await Noticia.findOne({ headline: string });
+      return news._id;
+    } catch (error) {
+      throw new AppError({ message: error.message, type: 'Noticia-Search' })
+    }
+
+}
+
 export const getAll = async () => {
     try {
         const noticias = await Noticia.find({});

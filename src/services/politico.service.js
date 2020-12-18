@@ -12,19 +12,20 @@ export const getOne = async (id) => {
     try {
         const politico = await politicoRepository.getOne(id);
         return politico;
-    } catch (error) { throw new AppError({ message: error.message, type: 'Político - GetOne Method', status: 502 }) };
+    } catch (error) { throw new AppError({ message: error.message, type: 'Político-GetOne', status: 502 }) };
 }
 
 export const create = async (newObject, id) => {
-    const newPolitico =  await politicoRepository.create(newObject, id);
-    return newPolitico;
+    try {
+        const newPolitico =  await politicoRepository.create(newObject, id);
+        return newPolitico;
+    } catch (error) { throw new AppError({ message: error.message, type: 'Politico-Criar', status: 500 }) }
 }
 
-export const updateOne = async (updateObject) => {
+export const updateOne = async (updateObject, id) => {
     try {
-        const updatedPolitico = await politicoRepository.updateOne(updateObject);
+        const politicoToUpdate = {...updateObject}
+        const updatedPolitico = await politicoRepository.updateOne(politicoToUpdate, id);
         return updatedPolitico;
-    } catch (error) {
-      throw new AppError({ message: error.message,type: 'Político - UpdateOne Method', status: 504 });
-    }
-  }
+    } catch (error) { throw new AppError({ message: error.message,type: 'Politico-UpdateOne-Method', status: 500 }) }
+}
