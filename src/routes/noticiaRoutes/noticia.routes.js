@@ -8,9 +8,8 @@ const router = Router();
 
 router.get('/buscar', async (req, res, next) => {
     try {
-      const { search } = req.query;
-  
-      const noticias = await noticiasService.search(search);
+      const { busca } = req.query;
+      const noticias = await noticiasService.search(busca);
   
       return res.status(200).json(noticias);
     } catch (error) {

@@ -16,9 +16,9 @@ export const getAll = async () => {
     } catch (error) { throw new AppError(error) }
 }
 
-export const search = async (string) => {
+export const search = async string => {
     try {
-        const noticias = await Noticia.find({ headline: string });
+        const noticias = await Noticia.find({ headline: { $regex: string } });
         return noticias;
     } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Busca', status: 500 }) }
 }
