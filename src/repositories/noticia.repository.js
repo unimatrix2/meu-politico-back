@@ -53,3 +53,14 @@ export const updateOne = async (updateObject, id) => {
     } catch (error) { throw new AppError({ message: error.message, type: 'Noticia-Editar', status: 500 }) }
 
 }
+
+export const searchReturnID = async (string) => {
+    try {
+      const news = await Noticia.findOne({ headline: string });
+      return news._id;
+    } catch (error) {
+      throw new AppError({ message: error.message, type: 'Noticia-Search' })
+    }
+  
+  }
+  

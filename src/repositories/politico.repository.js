@@ -15,7 +15,7 @@ export const getAll = async () => {
 }
 
 export const getOne = async (id) => {
-  const politico = await Politico.findById(id);
+  const politico = await Politico.findById(id).populate("news");
 
   return politico;
 }
