@@ -33,3 +33,11 @@ Nosso API possui rotas públicas para todos poderem buscar e acessar políticos 
 | https://meu-politico-api.herokuapp.com/api/politicos/criar | Registra um novo [Político](Modelos.md#Notícia) | POST |
 | https://meu-politico-api.herokuapp.com/api/politicos/editar/:id | Atualiza os dados de um [Político](Modelos.md#Notícia). Precisa passar o id do político como :id | PUT |
 | https://meu-politico-api.herokuapp.com/api/politicos/lista | Lista todos os políticos registrados pelo usuário autenticado | GET |
+
+### Frameworks utilizados
+
+Nossa API foi desenvolvida utilizando primariamente os Frameworks [ExpressJS](https://expressjs.com) e [Mongoose](https://mongoosejs.com)
+
+#### Devs
+
+A plataforma foi desenvolvida por Danny Nisenbaum e Cynthia Takiishi como projeto do Módulo 3 do curso de Desenvolvimento Web da Ironhack e é de uso exclusivo, licenciado no padrão GPL-3.
