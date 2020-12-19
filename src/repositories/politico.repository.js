@@ -20,7 +20,7 @@ export const searchReturnID = async (string) => {
     const politico = await Politico.findOne({ fullName: string });
     return politico._id;
   } catch (error) {
-    throw new AppError({ message: error.message, type: 'Politico-Search', status: 500 })
+    throw new AppError({ message: error.message, type: 'Politico-Nao-Existe', status: 400 })
   }
 
 }
