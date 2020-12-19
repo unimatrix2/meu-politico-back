@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 /* import joi from 'joi'; */
  
 const politicoSchema = new Schema({
-    fullName: { type: String, required: true, min: 10, max: 150 },
+    fullName: { type: String, required: true, min: 10, max: 80 },
     currentPosition: {
         type: String,
         enum: ['Candidato', 'Vereador', 'Prefeito', 'Dep. Estadual', 'Governador', 'Dep. Federal', 'Senador', 'Presidente', 'Cargo Indireto', 'Outro/Não Sei'],
