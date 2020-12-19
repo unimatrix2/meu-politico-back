@@ -18,7 +18,7 @@ export const search = async (string) => {
 
 export const create = async (newObject, id) => {
     try {
-        const politicos = newObject.politicos.split(',').map(politico => searchReturnID(politico))
+        const politicos = newObject.politicos.split(',').map(politico => searchReturnID(politico.trim()))
         const sources = newObject.sources.split(',');
         const politicosArray = await Promise.all(politicos);
         const newNoticia = await noticiaRepository.create(newObject, politicosArray, sources, id);
